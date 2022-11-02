@@ -1,5 +1,5 @@
 \section*{Question 6}
-\subsection*{(g)}
+\subsection*{(f)}
 \graphicspath{{q6_expectation_maximization_python/}}
 \includegraphics[width=0.5\textwidth]{Figure_1.png}
 \includegraphics[width=0.5\textwidth]{Figure_2.png}
@@ -11,7 +11,7 @@ We can see, that in all three data sets there are 3 clusters (more so in data2 a
 $K=2$ yields very under fitting cluster parameters, even for data1. For $K>3$ we get clusters that are "overlapping" each other, so we see overfitting.
 
 
-\subsection*{(h)}
+\subsection*{(g)}
 \includegraphics[width=0.5\textwidth]{Figure_5.png}
 
 Increasing $K$ here improves accuracy on the training data set, thus reducing generalization. For $K=9$, a model is produced that separates the colors in the test image better than the default of $K=3$. Increasing $K$ further might lead to poor accuracy on other test data. Since the colors are there dimensional, and we are looking at two classifications (skin and no-skin), intuitively speaking, $3*2$ clusters should be a good starting point for finding a suitable number of clusters.
