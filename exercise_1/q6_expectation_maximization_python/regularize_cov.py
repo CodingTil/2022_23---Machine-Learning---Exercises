@@ -13,4 +13,5 @@ def regularize_cov(covariance, epsilon):
     # regularized_cov: reconstructed matrix
 
     #####Insert your code here for subtask 6d#####
+    regularized_cov = covariance + epsilon * np.eye(covariance.shape[0])
     return regularized_cov

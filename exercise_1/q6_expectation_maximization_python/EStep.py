@@ -1,5 +1,5 @@
 import numpy as np
-from getLogLikelihood import getLogLikelihood
+from getLogLikelihood import getLogLikelihood, gaussianLikelihood
 
 
 def EStep(means, covariances, weights, X):
@@ -20,4 +20,13 @@ def EStep(means, covariances, weights, X):
     # gamma          : NxK matrix of responsibilities for N datapoints and K Gaussians.
 
     #####Insert your code here for subtask 6b#####
+    logLikelihood = getLogLikelihood(means, weights, covariances, X)
+    gamma = np.zeros((len(X), len(weights)))
+    for i in range(len(X)):
+        for k in range(len(weights)):
+            gamma[i, k] = (
+                weights[k]
+                * gaussianLikelihood(means[k], covariances[:, :, k], X[i], len(means[k]))
+            )
+        gamma[i] /= np.sum(gamma[i])
     return [logLikelihood, gamma]
