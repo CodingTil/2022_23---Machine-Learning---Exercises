@@ -1,0 +1,31 @@
+\section*{Question 4}
+Note that all measurements are greater than 0, thus $g(x)$ is always $1$.
+\begin{align*}
+	\frac{\partial p(x \mid \theta)}{\partial \theta} &= 2x \cdot \theta \cdot \exp(-\theta x) + x \cdot \theta^2 \cdot (-x) \exp(-\theta x) \\
+	&= 2x \cdot \theta \cdot \exp(-\theta x) - x^2 \cdot \theta^2 \cdot \exp(-\theta x) \\
+	&= x \theta \exp(-\theta x) \cdot (2 - x \theta) \\
+\end{align*}
+
+Let:
+\begin{align*}
+	f(x, \theta) \coloneqq \frac{\frac{\partial p(x \mid \theta)}{\partial \theta}}{p(x \mid \theta)} &= \frac{x \theta \exp(-\theta x) \cdot (2 - x \theta)}{\theta^2 x \exp(-\theta x) }
+\end{align*}
+Assuming $\theta \neq 0$, we can simplify this to:
+\begin{align*}
+	f(x, \theta) &= \frac{2 - x \theta}{\theta}
+\end{align*}
+
+We can reorder this derivative of the log likelihood to:
+\begin{align*}
+	-\sum_{n=1}^N f(x_n, \theta) &= -\sum_{n=1}^N \frac{2 - x_n \theta}{\theta} \\
+	&= -\frac{2}{\theta} + \sum_{n=1}^N x_n \\
+\end{align*}
+
+Setting this to $0$ yields:
+\begin{align*}
+	0 &= -\frac{2}{\theta} + \sum_{n=1}^N x_n \\
+	\sum_{n=1}^N x_n &= \frac{2}{\theta} \\
+	\theta &= \frac{2}{\sum_{n=1}^N x_n} \\
+\end{align*}
+
+Thus, the maximum likelihood estimate $\widetilde{\theta}$ for the given measurements is: $\widetilde{\theta} = \frac{2}{\sum_{n=1}^N x_n}$

@@ -1,0 +1,20 @@
+\section*{Question 3}
+Error: $\text{classify}(x)$ is not a function, iff $p(C_i \mid x) = p(C_j \mid x)$ for some $i \neq j$. Thus, we assume that $p(C_i \mid x) \neq p(C_j \mid x)$ for all $i \neq j$.
+
+\subsection*{(a)}
+For some $x$, let $i \in \{1, \dots, N\}$ and $j \in \{1, \dots, N\} \setminus \{i\}$, such that $C_i$ is the correct classification of $x$. Let $j \in \{1, \dots, N\}$:
+\begin{align*}
+	R(C_j \mid x) &= \sum_{k \in \{1, \dots, N\} \setminus \{j\}} L_{k,j} p(C_k \mid x) + L_{j,j} p(C_j \mid x) + L_{rej,j} p(C_{rej} \mid x) \\
+	&= \sum_{k \in \{1, \dots, N\} \setminus \{j\}} l_s p(C_k \mid x) + 0 \cdot p(C_j \mid x) + l_r p(C_{rej} \mid x) \\
+	&= \sum_{k \in \{1, \dots, N\} \setminus \{j\}} l_s p(C_k \mid x) + l_r p(C_{rej} \mid x) \\\\
+	R(C_{rej} \mid x) &= \sum_{k \in \{1, \dots, N\}} L_{k,j} p(C_k \mid x) + L_{rej,j} p(C_{rej} \mid x) \\
+	&= \sum_{k \in \{1, \dots, N\}} l_s p(C_k \mid x) + l_r p(C_{rej} \mid x)
+\end{align*}
+
+\textbf{TODO:} No idea how to continue
+
+\subsection*{(b)}
+If $l_r=0$, then $1-\frac{l_r}{l_s} = 1$. Thus, we then only classify $x$ to category $C_j$ iff $p(C_j \mid x) = 1$ (so we are certain). If that is not the case (uncertain), then we reject. As $l_r=0$, there is no punishment for rejecting. Therefore, the expected loss for such a function is always $0$.
+
+\subsection*{(c)}
+If $l_r>l_s$, then we never reject using $\text{classify}(x)$. Similarly, during risk minimization, we never use a strategy that rejects, as making a substitution error yields a lesser loss.
