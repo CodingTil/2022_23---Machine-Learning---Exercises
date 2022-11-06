@@ -17,3 +17,16 @@ $K=2$ yields very under fitting cluster parameters, even for data1. For $K>3$ we
 Increasing $K$ here improves accuracy on the training data set, thus reducing generalization. For $K=9$, a model is produced that separates the colors in the test image better than the default of $K=3$. Increasing $K$ further might lead to poor accuracy on other test data. Since the colors are there dimensional, and we are looking at two classifications (skin and no-skin), intuitively speaking, $3*2$ clusters should be a good starting point for finding a suitable number of clusters.
 
 Increasing the threshold $theta$ increases the required confidence, that a given pixel color represents skin. This leads to a more conservative classification (so rather non-skin than skin), which is more robust to noise, however, can also be less generalized. We increased $theta$ to $3$ and got the above result.
+
+
+\subsection*{(h)}
+More images using the above parameters: \\
+\includegraphics[width=0.5\textwidth]{person_1.jpg}
+\includegraphics[width=0.5\textwidth]{person_1_skin.png}
+\includegraphics[width=0.5\textwidth]{person_2.jpg}
+\includegraphics[width=0.5\textwidth]{person_2_skin.png}
+\includegraphics[width=0.5\textwidth]{alps.jpg}
+\includegraphics[width=0.5\textwidth]{alps_skin.png}
+\includegraphics[width=0.5\textwidth]{minion_landscape.jpg}
+\includegraphics[width=0.5\textwidth]{minion_landscape_skin.png}
+From the first two images we can learn that the algorithm is very confident when it comes to pixels similar to skin color, however, cannot distinguish between foreground and background. The last two landscape images are mostly detected as not-skin besides a few artifacts.
