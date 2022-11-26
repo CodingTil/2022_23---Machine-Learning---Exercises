@@ -47,20 +47,21 @@ train_result[train_result >= 0] = 1
 train_error = len(train_result[train_result != t])
 print(' ')
 print('*** 1-vs-3 ***')
-print('Number of SV: {0}\n'.format(sum(sv)))
+print('Number of SV: {0}\n'.format(sum(sv.flatten())))
 print('Width of margin: {0}\n'.format(2 / np.linalg.norm(w)))
 print('Train Error 1_vs_3: ', train_error)
 
 Xtest = np.concatenate((one['test'], three['test']))
 ttest = np.concatenate((np.ones(one['test'].shape[0]), (-1) * np.ones(three['test'].shape[0])))
 
-testresult = Xtest.dot(w) + b
+testresult = Xtest.dot(w.T) + b
 
 testresult[testresult < 0] = -1
 testresult[testresult >= 0] = 1
+testresult = testresult.flatten()
 test_error = len(testresult[testresult != ttest]) / len(ttest)
 print('Test Error 1_vs_3: ', str(test_error))
- 
+
 # Visualize the weight vector W
 # positive values(in red) gives shape of 1
 # negative values(in blue) gives shape of 3
@@ -96,17 +97,18 @@ train_result[train_result >= 0] = 1
 train_error = len(train_result[train_result != t])
 print(' ')
 print('*** 3-vs-8 ***')
-print('Number of SV: {0}\n'.format(sum(sv)))
+print('Number of SV: {0}\n'.format(sum(sv.flatten())))
 print('Width of margin: {0}\n'.format(2/np.linalg.norm(w)))
 print('Train Error 3-vs-8: ', train_error)
 
 Xtest = np.concatenate((three['test'], eight['test']))
 ttest = np.concatenate((np.ones(three['test'].shape[0]), (-1)*np.ones(eight['test'].shape[0])))
 
-testresult = Xtest.dot(w) + b
+testresult = Xtest.dot(w.T) + b
 
 testresult[testresult < 0] = -1
 testresult[testresult >= 0] = 1
+testresult = testresult.flatten()
 test_error = len(testresult[testresult != ttest]) / len(ttest)
 print('Test Error 3-vs-8: ', test_error)
 
@@ -118,7 +120,7 @@ w = np.reshape(w, (16, 16))
 plt.subplot()
 plt.imshow(w)
 plt.show()
-# 
+#
 # train error 12 on _full_ dataset
 # test errors vary largely by choice of test set... thus, there is no
 # "correct" number.
