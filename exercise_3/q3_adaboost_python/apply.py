@@ -24,7 +24,7 @@ Y = syn['Y']
 
 
 # b) Simple weak classifier training
-j, theta = simpleClassifier(X, Y)
+j, theta, _ = simpleClassifier(X, Y)
 plt.subplot()
 plot_(X, Y, j, theta, 'Simple weak linear classifier')
 plt.show()
@@ -126,7 +126,7 @@ errors = np.ndarray((iter, kMax))  # Placeholder for errors
 print('Running adaboostUSPS...')
 for i in range(iter):            # Run it multiple times
     alphaK, para, error = adaboostUSPS(X, Y, kMax, nSamples, percent)
-    errors[i, :] = error
+    errors[i, :] = np.array(error).flatten()
 
 
 # Plot error over iterations for multiple runs
