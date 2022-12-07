@@ -21,7 +21,12 @@ train['label'] = np.append(train['label'], [[-1], [-1]])
 # Train the SVM
 print('Training the SVM')
 alpha, sv, w, b, result, slack = svmlin(train['data'], train['label'], C)
-print('Number of SV: {0}\n'.format(sum(sv)))
+alpha = np.asarray(alpha)
+sv = np.asarray(sv)
+w = np.asarray(w)
+result = np.asarray(result)
+slack = np.asarray(slack)
+print('Number of SV: {0}\n'.format(sum(sv.flatten())))
 
 # Accuracy on train data
 accuracy = len(result[np.sign(result) == train['label']])/len(train['label'])
@@ -43,19 +48,19 @@ plt.scatter(train['data'][train['label'] == 1][:, 0], train['data'][train['label
 plt.scatter(train['data'][train['label'] == -1][:, 0], train['data'][train['label'] == -1][:, 1], c='r',
             marker=(8, 2, 0), linewidth=0.5)  # red class=-1
 # Plot the support vectors
-plt.scatter(train['data'][sv][:, 0], train['data'][sv][:, 1], facecolors='none', edgecolors='limegreen', marker='o',
+plt.scatter(train['data'][sv.flatten()][:, 0], train['data'][sv.flatten()][:, 1], facecolors='none', edgecolors='limegreen', marker='o',
             linewidth=1.5)
 plt.xlim(xmin-xmargin, xmax+xmargin)
 plt.ylim(ymin-ymargin, ymax+ymargin)
 
 # Plot the slack points
-if sum(slack) > 0:
-    plt.plot(train['data'][slack][:,0], train['data'][sv][:, 1], facecolors='none', edgecolors='y', marker='o')
+if sum(slack.flatten()) > 0:
+    plt.scatter(train['data'][slack.flatten()][:,0], train['data'][slack.flatten()][:, 1], facecolors='none', edgecolors='y', marker='o')
 
 x = np.arange(-xmax, xmax, 0.001)
-y = -(w[0] * x + b)/w[1]
-pos = -(w[0] * x + b + 1)/w[1]
-neg = -(w[0] * x + b - 1)/w[1]
+y = -(w[0][0] * x + b)/w[0][1]
+pos = -(w[0][0] * x + b + 1)/w[0][1]
+neg = -(w[0][0] * x + b - 1)/w[0][1]
 
 plt.plot(x, y, 'k-', linewidth = 0.75)
 plt.plot(x, neg, 'b-', linewidth = 0.75)
@@ -63,7 +68,7 @@ plt.plot(x, pos, 'r-', linewidth = 0.75)
 plt.show()
 
 # Classify test data
-resultv = np.sign(test['data'].dot(w) + b)
+resultv = np.sign(test['data'].dot(w.T) + b)[:, 0]
 
 # Accuracy on test data
 accuracy = len(resultv[resultv==test['label']])/len(test['label'])
@@ -72,7 +77,7 @@ print('Accuracy on test data with C = {0}: \t {1}\n'.format(C, accuracy))
 # Plot the results on test set
 plt.subplot()
 plt.title('Test Set')
-correct = 0    
+correct = 0
 incorrect = 0
 
 plt.plot(x, y, 'k-', linewidth=0.75)  # class border
