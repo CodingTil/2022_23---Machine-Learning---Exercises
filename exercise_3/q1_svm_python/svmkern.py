@@ -47,8 +47,11 @@ def svmkern(X, t, C, p):
     sv = (alpha > 1e-5).T
     w = np.sum(np.mat(alpha) * np.mat(t.T) * X, axis=0)
     b = np.mean(t[sv.flatten()] - X[sv.flatten()].dot(w.T))
-    result = np.sign(X.dot(w.T) + b).T
+    result = np.zeros((1, X.shape[0]))
+    for i in range(X.shape[0]):
+        result[0, i] = np.sign(np.sum(np.mat(alpha) * np.mat(t.T) * np.mat(kern(X[i], X.T, p)).T, axis=0) + b)
     slack = np.logical_and(result.flatten() == t.flatten(), (alpha < C).flatten())
+    slack = slack.reshape(1, -1)
 
     alpha = np.asarray(alpha)
     sv = np.asarray(sv)
