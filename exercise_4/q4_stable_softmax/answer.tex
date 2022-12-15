@@ -1,0 +1,122 @@
+\section*{Question 4}
+\subsection*{(a)}
+$x$ was not written bold in the task description. By the notation used in this lecture this implies that $x \in \mathbb{R}$. Thus:
+\begin{align*}
+\operatorname{softmax}(x) = \frac{e^x}{e^x} = 1 = \frac{e^{x+c}}{e^{x+c}} = \operatorname{softmax}(x+c)
+\end{align*}
+
+Since this was just way too easy, we assume that, again, this exercise sheet broke notation, and we should actually prove the following statement:
+\begin{align*}
+\sigma(\boldsymbol{x}) = \sigma(\boldsymbol{x} + c \cdot \boldsymbol{1})
+\end{align*}
+where $\boldsymbol{1}$ is an $n$-dimensional unit vector.
+
+\begin{align*}
+\sigma_i(\boldsymbol{x}) &= \frac{e^{x_i}}{\sum_{j=1}^n e^{x_j}} \\
+&= \frac{e^{x_i}}{\sum_{j=1}^n e^{x_j}} \cdot 1\\
+&= \frac{e^{x_i}}{\sum_{j=1}^n e^{x_j}} \cdot \frac{e^c}{e^c} \\
+&= \frac{e^{x_i} \cdot e^c}{e^c \cdot (\sum_{j=1}^n e^{x_j})} \\
+&= \frac{e^{x_i} \cdot e^c}{\sum_{j=1}^n e^{x_j} \cdot e^c} \\
+&= \frac{e^{x_i + c}}{\sum_{j=1}^n e^{x_j + c}} \\
+&= \sigma_i(\boldsymbol{x} + c \cdot \boldsymbol{1})
+\end{align*}
+
+Since this accounts for all $i$, we can conclude that $\sigma(\boldsymbol{x}) = \sigma(\boldsymbol{x} + c \cdot \boldsymbol{1})$.
+
+\subsection*{(b)}
+In question 1 we have computed the following:
+\begin{align*}
+\log \sigma_i(\boldsymbol{x}) &= x_i - \log \left( \sum_{j=1}^n e^{x_j} \right)
+\end{align*}
+And:
+\begin{align*}
+\frac{\partial \log \sigma_i(\boldsymbol{x})}{\partial x_j} &= \mathds{1}_{i=j} - \sigma_j(\boldsymbol{x})
+\end{align*}
+
+Thus, the Jacobian of log-softmax is:
+\begin{align*}
+D_{\boldsymbol{x}} \log \sigma(\boldsymbol{x}) &=
+\begin{pmatrix}
+(1 - \sigma_1(\boldsymbol{x})) & -\sigma_2(\boldsymbol{x}) & \dots & -\sigma_{n-1}(\boldsymbol{x}) & -\sigma_n(\boldsymbol{x}) \\
+-\sigma_1(\boldsymbol{x}) & (1 - \sigma_2(\boldsymbol{x})) & \dots & -\sigma_{n-1}(\boldsymbol{x}) & -\sigma_n(\boldsymbol{x}) \\
+\vdots & \vdots & \ddots & \vdots & \vdots \\
+-\sigma_1(\boldsymbol{x}) & -\sigma_2(\boldsymbol{x}) & \dots & (1 - \sigma_{n-1}(\boldsymbol{x})) & -\sigma_n(\boldsymbol{x}) \\
+-\sigma_1(\boldsymbol{x}) & -\sigma_2(\boldsymbol{x}) & \dots & -\sigma_{n-1}(\boldsymbol{x}) & (1 - \sigma_n(\boldsymbol{x})) \\
+\end{pmatrix}
+\end{align*}
+
+So especially, the diagonal entries are:
+\begin{align*}
+\frac{\partial \log \sigma_i(\boldsymbol{x})}{\partial x_i} &= (1 - \sigma_i(\boldsymbol{x}))
+\end{align*}
+And the off-diagonal entries are:
+\begin{align*}
+\frac{\partial \sigma_i}{\partial x_j} &= -\sigma_j(\boldsymbol{x})
+\end{align*}
+
+
+\subsection*{(c)}
+\begin{align*}
+\boldsymbol{z} &= \boldsymbol{v} \cdot D_{\boldsymbol{x}}\sigma(\boldsymbol{x}) \\
+&=
+(v_1 \dots v_n)
+\cdot
+\begin{pmatrix}
+(1 - \sigma_1(\boldsymbol{x})) & -\sigma_2(\boldsymbol{x}) & \dots & -\sigma_{n-1}(\boldsymbol{x}) & -\sigma_n(\boldsymbol{x}) \\
+-\sigma_1(\boldsymbol{x}) & (1 - \sigma_2(\boldsymbol{x})) & \dots & -\sigma_{n-1}(\boldsymbol{x}) & -\sigma_n(\boldsymbol{x}) \\
+\vdots & \vdots & \ddots & \vdots & \vdots \\
+-\sigma_1(\boldsymbol{x}) & -\sigma_2(\boldsymbol{x}) & \dots & (1 - \sigma_{n-1}(\boldsymbol{x})) & -\sigma_n(\boldsymbol{x}) \\
+-\sigma_1(\boldsymbol{x}) & -\sigma_2(\boldsymbol{x}) & \dots & -\sigma_{n-1}(\boldsymbol{x}) & (1 - \sigma_n(\boldsymbol{x})) \\
+\end{pmatrix} \\
+&=
+\begin{pmatrix}
+v_1 \cdot (1 - \sigma_1(\boldsymbol{x})) + v_2 \cdot -\sigma_1(\boldsymbol{x}) + \dots + v_n \cdot -\sigma_1(\boldsymbol{x}) \\
+v_1 \cdot -\sigma_2(\boldsymbol{x}) + v_2 \cdot (1 - \sigma_2(\boldsymbol{x})) + \dots + v_n \cdot -\sigma_2(\boldsymbol{x}) \\
+\vdots \\
+v_1 \cdot -\sigma_{n-1}(\boldsymbol{x}) + v_2 \cdot -\sigma_{n-1}(\boldsymbol{x}) + \dots + v_n \cdot (1 - \sigma_{n-1}(\boldsymbol{x})) \\
+v_1 \cdot -\sigma_n(\boldsymbol{x}) + v_2 \cdot -\sigma_n(\boldsymbol{x}) + \dots + v_n \cdot -\sigma_n(\boldsymbol{x}) \\
+\end{pmatrix}^\top \\
+&=
+\begin{pmatrix}
+v_1 - v_1 \cdot \sigma_1(\boldsymbol{x}) - v_2 \cdot \sigma_1(\boldsymbol{x}) - \dots - v_n \cdot \sigma_1(\boldsymbol{x}) \\
+v_2 - v_1 \cdot \sigma_2(\boldsymbol{x}) - v_2 \cdot \sigma_2(\boldsymbol{x}) - \dots - v_n \cdot \sigma_2(\boldsymbol{x}) \\
+\vdots \\
+v_{n-1} - v_1 \cdot \sigma_{n-1}(\boldsymbol{x}) - v_2 \cdot \sigma_{n-1}(\boldsymbol{x}) - \dots - v_n \cdot \sigma_{n-1}(\boldsymbol{x}) \\
+v_n - v_1 \cdot \sigma_n(\boldsymbol{x}) - v_2 \cdot \sigma_n(\boldsymbol{x}) - \dots - v_n \cdot \sigma_n(\boldsymbol{x}) \\
+\end{pmatrix}^\top \\
+&=
+\begin{pmatrix}
+v_1 - \sum_{j=1}^n v_j \cdot \sigma_1(\boldsymbol{x}) \\
+v_2 - \sum_{j=1}^n v_j \cdot \sigma_2(\boldsymbol{x}) \\
+\vdots \\
+v_{n-1} - \sum_{j=1}^n v_j \cdot \sigma_{n-1}(\boldsymbol{x}) \\
+v_n - \sum_{j=1}^n v_j \cdot \sigma_n(\boldsymbol{x}) \\
+\end{pmatrix}^\top \\
+&=
+\begin{pmatrix}
+v_1 - \sigma_1(\boldsymbol{x}) \cdot \sum_{j=1}^n v_j \\
+v_2 - \sigma_2(\boldsymbol{x}) \cdot \sum_{j=1}^n v_j \\
+\vdots \\
+v_{n-1} - \sigma_{n-1}(\boldsymbol{x}) \cdot \sum_{j=1}^n v_j \\
+v_n - \sigma_n(\boldsymbol{x}) \cdot \sum_{j=1}^n v_j \\
+\end{pmatrix}^\top
+\end{align*}
+
+\subsection*{(d)}
+\begin{align*}
+\frac{\partial l(\boldsymbol{z}, \boldsymbol{t})}{z_j} &= - \frac{\partial}{\partial z_j} \sum_{i=1}^n t_i \cdot z_i \\
+&= - \sum_{i=1}^n t_i \cdot \frac{\partial}{\partial z_j} z_i \\
+&= - t_i \cdot \frac{\partial}{\partial z_j} \sum_{i=1}^n z_i \\
+&= - t_i \\
+\end{align*}
+
+
+\begin{align*}
+D_{\boldsymbol{z}}l(\boldsymbol{z}, \boldsymbol{t})
+&=
+\begin{pmatrix}
+- t_1 \\
+\vdots \\
+- t_n
+\end{pmatrix}^\top
+\end{align*}
