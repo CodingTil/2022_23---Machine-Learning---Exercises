@@ -1,0 +1,11 @@
+\section*{Question 3}
+\subsection*{(a)}
+\textit{We are sure that we should prove} $\frac{\partial}{\partial x} \tanh(x) = 1 - \tanh(x)^2 = 1 - \tanh(x) \cdot \tanh(x)$ \textit{and not} $\frac{\partial}{\partial x} \tanh(x) = 1 - \tanh^2(x) = 1 - (\tanh \circ \tanh)(x) = 1 - \tanh(\tanh(x))$\textit{.}
+
+\begin{align*}
+\frac{\partial}{\partial x} \tanh(x) &= \frac{\partial}{\partial x} \frac{e^x - e^{-x}}{e^x + e^{-x}} \\
+&= \frac{e^x + e^{-x}}{(e^x + e^{-x})^2} \cdot \frac{\partial}{\partial x} (e^x - e^{-x}) - \frac{e^x - e^{-x}}{(e^x + e^{-x})^2} \cdot \frac{\partial}{\partial x} (e^x + e^{-x}) \\
+&= \frac{e^x + e^{-x}}{(e^x + e^{-x})^2} \cdot (e^x + e^{-x}) - \frac{e^x - e^{-x}}{(e^x + e^{-x})^2} \cdot (e^x - e^{-x}) \\
+&= 1 - \frac{(e^x - e^{-x})^2}{(e^x + e^{-x})^2} \\
+&= 1 - \tanh(x)^2
+\end{align*}

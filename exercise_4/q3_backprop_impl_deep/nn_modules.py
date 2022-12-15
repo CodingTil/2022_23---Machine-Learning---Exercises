@@ -110,6 +110,35 @@ class Linear(NNModule):
     """Module which implements a linear layer"""
 
     #####Insert your code here for subtask 2a#####
+    def __init__(self, n_in, n_out):
+        self.input_dim = n_in
+        self.output_dim = n_out
+        self.W = np.random.randn(n_in, n_out) * 0.1
+        self.b = np.zeros((1, n_out))
+        self.dW = np.zeros((n_in, n_out))
+        self.db = np.zeros((1, n_out))
+
+    def fprop(self, input):
+        self.cache_in = input
+        return np.dot(input, self.W) + self.b
+
+    def bprop(self, grad_out):
+        self.dW = np.dot(self.cache_in.T, grad_out)
+        self.db = np.sum(grad_out, axis=0)
+        return np.dot(grad_out, self.W.T)
+
+    def get_grad_param(self, grad_out):
+        return self.dW, self.db
+
+    def apply_parameter_update(self, acc_grad_para, up_fun):
+        self.W = up_fun(self.W, acc_grad_para[0])
+        self.b = up_fun(self.b, acc_grad_para[1])
+
+    def initialize_parameter(self):
+        self.W = np.random.randn(self.input_dim, self.output_dim) * 0.1
+        self.b = np.zeros((1, self.output_dim))
+        self.dW = np.zeros((self.input_dim, self.output_dim))
+        self.db = np.zeros((1, self.output_dim))
 
 
 # Task 2 b)
@@ -117,6 +146,23 @@ class Softmax(NNModuleParaFree):
     """Softmax layer"""
 
     #####Insert your code here for subtask 2b#####
+    def __init__(self):
+        self.cache_in = None
+        self.cache_out = None
+
+    def fprop(self, input):
+        self.cache_in = input
+        # substract max to avoid overflow
+        input -= np.max(input, axis=1, keepdims=True)
+        exp = np.exp(input)
+        self.cache_out = exp / np.sum(exp, axis=1, keepdims=True)
+        return self.cache_out
+
+    def bprop(self, grad_out):
+        grad_in = np.zeros_like(self.cache_in)
+        for i in range(self.cache_in.shape[0]):
+            grad_in[i] = self.cache_out[i] * (grad_out[i] - np.sum(grad_out[i] * self.cache_out[i]))
+        return grad_in
 
 
 # Task 2 c)
