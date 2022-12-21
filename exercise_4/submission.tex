@@ -1,0 +1,78 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper,margin=2cm]{geometry}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{dsfont}
+
+\usepackage{listings}
+
+\usepackage{booktabs} % For tables
+\usepackage[table,xcdraw]{xcolor} % For tables
+
+\usepackage{svg} % for .svg's
+
+\usepackage{parskip}
+
+\usepackage{tikz} % TikZ
+
+\usepackage{enumerate}
+\usepackage{enumitem}
+
+\usepackage{nameref}
+
+\usepackage{xcolor}
+
+\usepackage{subfiles}
+
+\usepackage{verbatim}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\Abs{\lVert}{\rVert}
+
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\lhead{\today}
+\chead{Exercise 4\\Machine Learning}
+\rhead{Til Mohr\\Simon Michau\\Marc Ludevid Wulf}
+
+\setlength{\headheight}{50pt}
+
+\begin{document}
+
+\input{q1_softmax_basics/answer.tex}
+\newpage
+\input{q3_backprop_impl_deep/answer.tex}
+\newpage
+\input{q4_stable_softmax/answer.tex}
+
+\end{document}
